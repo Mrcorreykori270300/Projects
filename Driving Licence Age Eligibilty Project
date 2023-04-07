@@ -1,0 +1,105 @@
+import java.util.Scanner;
+
+class UnderAgeException extends Exception
+{
+	UnderAgeException(String msg)
+	{
+		super(msg);
+	}
+}
+
+class OverAgeException extends Exception
+{
+	OverAgeException(String msg)
+	{
+		super(msg);
+	}
+}
+class DLapplication
+{
+	private int age;
+	public void inputs()
+	{
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Please Enter Your Age");
+		age = sc.nextInt();
+	}
+	
+	public void verify() throws UnderAgeException,OverAgeException
+	{
+		if(age>=18 && age<60)
+		{
+			System.out.println("You are Eligible for Driving Licence");
+		}
+		else if (age<18)
+		{
+			throw new UnderAgeException("You are too Young for DL application");
+		}
+		else if(age>60)
+		{
+			throw new OverAgeException("You are old to get DL");
+		}
+	}
+}
+
+class RTO
+{
+	public void ShowEligibility()
+	{
+		DLapplication d = new DLapplication();
+		
+		try
+		{
+			d.inputs();
+			d.verify();
+		}
+		catch (UnderAgeException a)
+		{
+			try
+			{
+				d.inputs();
+				d.verify();
+			}
+			catch(OverAgeException b1)
+			{
+				System.out.println(b1.getMessage());
+				System.exit(0);
+			}
+			catch(UnderAgeException b2)
+			{
+				System.out.println(b2.getMessage());
+				System.exit(0);
+			}
+			
+		}
+		catch(OverAgeException b)
+		{
+			try
+			{
+				d.inputs();
+				d.verify();
+			}
+			catch(OverAgeException b1)
+			{
+				System.out.println(b1.getMessage());
+				System.exit(0);
+			}
+			catch(UnderAgeException b2)
+			{
+				System.out.println(b2.getMessage());
+				System.exit(0);
+			}
+		}
+	}
+}
+public class CustomeException02 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		RTO RTO = new RTO();
+		RTO.ShowEligibility();
+
+	}
+
+}
