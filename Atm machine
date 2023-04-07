@@ -1,0 +1,91 @@
+import java.util.Scanner;
+
+class InvalidUserCredintialException extends Exception
+{
+	InvalidUserCredintialException(String msg)
+	{
+		super(msg);
+	}
+}
+
+class Atm
+{
+	private int accNo = 278703;
+	private int Pass = 2486;
+	private int accountNo;
+	private int accPass;
+	
+	//Getting Inputs from user
+	public void getInput()
+	{
+		Scanner sc = new Scanner (System.in);
+		
+		System.out.println("Please Enter your account Number");
+		accountNo = sc.nextInt();
+		
+		System.out.println("Enter Your Pin");
+		accPass = sc.nextInt();
+	}
+	//Verifying details
+	public void verify() throws InvalidUserCredintialException
+	{
+		if(accountNo == accNo && accPass == Pass)
+		{
+			System.out.println("Transaction is in Process");
+		}
+		else
+		{
+//			InvalidUserCredintialException iucE = new InvalidUserCredintialException();
+//			System.out.println("Invalid Creadentials");
+//			throw iucE;
+			throw new InvalidUserCredintialException("invalid User Creadential");	
+		}
+	}
+	
+}
+
+class Bank
+{
+	public void initiate()
+	{
+		Atm a = new Atm();
+		try
+		{
+		a.getInput();
+		a.verify();
+		}
+		catch (InvalidUserCredintialException e1)
+		{
+			try
+			{
+				System.out.println(e1.getMessage());
+				a.getInput();
+				a.verify();
+			}
+			catch (InvalidUserCredintialException e2)
+			{
+				try
+				{
+					System.out.println(e2.getMessage());
+					a.getInput();
+					a.verify();	
+				}
+				catch (InvalidUserCredintialException e3)
+				{
+					System.out.println("Card is blocked");
+					System.exit(0);
+				}
+				
+			}
+		}
+	}
+}
+public class CustomeException {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Bank b = new Bank();
+		b.initiate();
+	}
+
+}
